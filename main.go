@@ -1,5 +1,7 @@
 // time-stamp microservice receives timestamps and returns json form of natural/unix timestamp.
 // Exercise by Free Code Camp.
+// I have to give lots of credit for an invaluable code review!
+// Code reviewed by: @groob
 package main
 
 import (
@@ -47,7 +49,7 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	naturalDate := fmt.Sprintf("%v %v, %v", t.Month().String(), t.Day(), t.Year())
+	naturalDate := t.Format("January 2, 2006")
 	naturalTime := t.Unix()
 
 	date := Date{
