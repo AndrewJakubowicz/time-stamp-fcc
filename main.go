@@ -26,9 +26,9 @@ func main() {
 }
 
 func timestamp(w http.ResponseWriter, r *http.Request) {
-
 	tstr := r.URL.Path[1:]
 	if tstr == "favicon.ico" {
+		w.Header().Set("Content-Type", "image/ico")
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
