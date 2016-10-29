@@ -32,6 +32,7 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("charset", "utf-8")
 
 	t, err := returnTime(tstr)
 	if err != nil {
