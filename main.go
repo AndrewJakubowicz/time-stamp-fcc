@@ -61,7 +61,7 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// returnTime takes a string and returns the time.
+// parseTime takes a string and returns the time.
 // Can handle UNIX seconds input and general time in the form:
 // "December 15, 2015"
 func parseTime(t string) (time.Time, error) {
