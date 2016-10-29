@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"testing"
 	"time"
@@ -17,6 +19,7 @@ func Test_returnTime(t *testing.T) {
 		{"unix basic test", "1450137600", time.Unix(1450137600, 0).UTC(), false},
 		{"natural language test", "December 15, 2015", time.Unix(1450137600, 0).UTC(), false},
 		{"nonsense", "ooglyboo", time.Time{}, true},
+		{"Check that UNIX time is correct", "January 29, 2031", time.Unix(1927411200, 0).UTC(), false},
 	}
 	for _, tt := range tests {
 		got, err := returnTime(tt.t)
@@ -26,6 +29,36 @@ func Test_returnTime(t *testing.T) {
 		}
 		if !reflect.DeepEqual(got, tt.want) {
 			t.Errorf("%q. returnTime() = %v, want %v", tt.name, got, tt.want)
+		}
+	}
+}
+
+func Test_timestamp(t *testing.T) {
+	cases := []struct {
+		in, out string
+	}{
+		{"1450137600", `{"unix":1450137600,"natural":"December 15, 2015"}`},
+		{"December 15, 2015", `{"unix":1450137600,"natural":"December 15, 2015"}`},
+		{"garbage Not Date", `{"unix":null,"natural":null}`},
+	}
+	for _, c := range cases {
+		req, err := http.NewRequest(
+			http.MethodGet,
+			"http://localhost:8080/"+c.in,
+			nil,
+		)
+		if err != nil {
+			t.Fatalf("could not create request: %v", err)
+		}
+
+		rec := httptest.NewRecorder()
+		timestamp(rec, req)
+
+		if rec.Code != http.StatusOK {
+			t.Errorf("expected status 200; got %d", rec.Code)
+		}
+		if rec.Body.String() != c.out {
+			t.Errorf("unexpected body in response: %q", rec.Body.String())
 		}
 	}
 }
