@@ -40,12 +40,10 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 
 	t, err := parseTime(tstr)
 	if err != nil {
-		nilJSON, err := json.Marshal(Date{nil, nil})
-		if err != nil {
+		// Ignore this error and return nil json.
+		if err = json.NewEncoder(w).Encode(Date{nil, nil}); err != nil {
 			http.Error(w, "Json string failed to marshal", http.StatusInternalServerError)
-			return
 		}
-		w.Write(nilJSON)
 		return
 	}
 
@@ -56,13 +54,10 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 		Unix:    &naturalTime,
 		Natural: &naturalDate}
 
-	responseJSON, err := json.Marshal(date)
-	if err != nil {
+	if err := json.NewEncoder(w).Encode(&date); err != nil {
 		http.Error(w, "Json string failed to marshal", http.StatusInternalServerError)
 		return
 	}
-
-	w.Write(responseJSON)
 
 }
 

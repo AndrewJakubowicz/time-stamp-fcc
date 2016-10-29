@@ -39,9 +39,9 @@ func Test_timestamp(t *testing.T) {
 	cases := []struct {
 		in, out string
 	}{
-		{"1450137600", `{"unix":1450137600,"natural":"December 15, 2015"}`},
-		{"December 15, 2015", `{"unix":1450137600,"natural":"December 15, 2015"}`},
-		{"garbage Not Date", `{"unix":null,"natural":null}`},
+		{"1450137600", "{\"unix\":1450137600,\"natural\":\"December 15, 2015\"}\n"},
+		{"December 15, 2015", "{\"unix\":1450137600,\"natural\":\"December 15, 2015\"}\n"},
+		{"garbage Not Date", "{\"unix\":null,\"natural\":null}\n"},
 	}
 	for _, c := range cases {
 		req, err := http.NewRequest(
@@ -60,7 +60,7 @@ func Test_timestamp(t *testing.T) {
 			t.Errorf("expected status 200; got %d", rec.Code)
 		}
 		if rec.Body.String() != c.out {
-			t.Errorf("unexpected body in response: %q", rec.Body.String())
+			t.Errorf("unexpected body in response: %q\nExpected: %q", rec.Body.String(), c.out)
 		}
 	}
 }
