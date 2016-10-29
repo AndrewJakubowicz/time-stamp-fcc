@@ -6,7 +6,7 @@ Running at `https://time-stamp-fcc.herokuapp.com`.
 
 Can accept general date form:
 
-[time-stamp-fcc.herokuapp.com/1 May, 2002](https://time-stamp-fcc.herokuapp.com/1 May, 2002)
+[time-stamp-fcc.herokuapp.com/May 1, 2002](https://time-stamp-fcc.herokuapp.com/May 1, 2002)
 
 Can accept Unix date form:
 
