@@ -78,7 +78,7 @@ func returnTime(t string) (time.Time, error) {
 
 	// Assume general date form.
 	genTime := strings.Split(t, " ")
-	if len(genTime) != 3 {
+	if len(genTime) != 3 || len(genTime[0]) < 3 {
 		return time.Time{}, fmt.Errorf("general form of date not broken into 3 elements: %v", genTime)
 	}
 
