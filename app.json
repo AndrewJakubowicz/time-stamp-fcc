@@ -1,9 +1,0 @@
-{
-    "name": "Timestamp microservice",
-    "description": "App created for FCC challenge",
-    "buildpacks": [
-        {
-            "url": "https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-go"
-        }
-    ]
-}
