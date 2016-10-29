@@ -20,6 +20,7 @@ func Test_returnTime(t *testing.T) {
 		{"natural language test", "December 15, 2015", time.Unix(1450137600, 0).UTC(), false},
 		{"nonsense", "ooglyboo", time.Time{}, true},
 		{"Check that UNIX time is correct", "January 29, 2031", time.Unix(1927411200, 0).UTC(), false},
+		{"natural language test with short month", "Dec 15, 2015", time.Unix(1450137600, 0).UTC(), false},
 	}
 	for _, tt := range tests {
 		got, err := returnTime(tt.t)
