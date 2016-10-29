@@ -26,9 +26,13 @@ func main() {
 }
 
 func timestamp(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 
 	tstr := r.URL.Path[1:]
+	if tstr == "favicon.ico" {
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+
 	t, err := returnTime(tstr)
 	if err != nil {
 		fmt.Println("Not a valid time input ", err)
