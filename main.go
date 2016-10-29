@@ -1,7 +1,7 @@
 // time-stamp microservice receives timestamps and returns json form of natural/unix timestamp.
 // Exercise by Free Code Camp.
-// I have to give lots of credit for an invaluable code review!
-// Code reviewed by: @groob
+// I have to give lots of credit for the invaluable code reviews given by:
+// @groob(Victor Vrantchan), @jsageryd (Johan Sageryd)
 package main
 
 import (
