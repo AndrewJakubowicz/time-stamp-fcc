@@ -9,7 +9,7 @@ import (
 )
 
 // Test for function returnTime.
-func Test_returnTime(t *testing.T) {
+func Test_parseTime(t *testing.T) {
 	tests := []struct {
 		name    string
 		t       string
@@ -24,7 +24,7 @@ func Test_returnTime(t *testing.T) {
 		{"short garbage", "1 1 1", time.Time{}, true},
 	}
 	for _, tt := range tests {
-		got, err := returnTime(tt.t)
+		got, err := parseTime(tt.t)
 		if (err != nil) != tt.wantErr {
 			t.Errorf("%q. returnTime() error = %v, wantErr %v", tt.name, err, tt.wantErr)
 			continue

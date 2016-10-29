@@ -5,6 +5,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -25,10 +26,7 @@ func main() {
 		Addr: ":" + os.Getenv("PORT"),
 	}
 	fmt.Println("Listening on [", server.Addr, "]...")
-	err := server.ListenAndServe()
-	if err != nil {
-		panic(err)
-	}
+	log.Fatal(server.ListenAndServe())
 }
 
 func timestamp(w http.ResponseWriter, r *http.Request) {
@@ -38,11 +36,11 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("charset", "utf-8")
 
-	t, err := returnTime(tstr)
+	t, err := parseTime(tstr)
 	if err != nil {
 		nilJSON, err := json.Marshal(Date{nil, nil})
 		if err != nil {
-			http.Error(w, "Json string failed to write", 500)
+			http.Error(w, "Json string failed to marshal", http.StatusInternalServerError)
 			return
 		}
 		w.Write(nilJSON)
@@ -58,7 +56,7 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 
 	responseJSON, err := json.Marshal(date)
 	if err != nil {
-		http.Error(w, "Json string failed to write", 500)
+		http.Error(w, "Json string failed to marshal", http.StatusInternalServerError)
 		return
 	}
 
@@ -69,7 +67,7 @@ func timestamp(w http.ResponseWriter, r *http.Request) {
 // returnTime takes a string and returns the time.
 // Can handle UNIX seconds input and general time in the form:
 // "December 15, 2015"
-func returnTime(t string) (time.Time, error) {
+func parseTime(t string) (time.Time, error) {
 
 	// Optimistically try to parse Unix string
 	if unixTime, err := strconv.Atoi(t); err == nil {
